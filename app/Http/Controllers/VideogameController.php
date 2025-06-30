@@ -40,7 +40,7 @@ class VideogameController extends Controller
 
         $newVideogame->save();
 
-        return redirect()->route("videogames.index", $newVideogame);
+        return redirect()->route("videogames.show", $newVideogame);
     }
 
     /**
