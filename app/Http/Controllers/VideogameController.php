@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Videogame;
 use Illuminate\Http\Request;
 
 class VideogameController extends Controller
@@ -11,7 +12,9 @@ class VideogameController extends Controller
      */
     public function index()
     {
-        //
+        $videogames = Videogame::all();
+
+        return view('videogames.index', compact('videogames'));
     }
 
     /**
@@ -19,7 +22,7 @@ class VideogameController extends Controller
      */
     public function create()
     {
-        //
+        return view('videogames.create');
     }
 
     /**
@@ -27,7 +30,17 @@ class VideogameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newVideogame = new Videogame();
+
+        $newVideogame->title = $data['title'];
+        $newVideogame->description = $data['description'];
+        $newVideogame->release_date = $data['release_date'];
+
+        $newVideogame->save();
+
+        return redirect()->route("videogames.index", $newVideogame);
     }
 
     /**

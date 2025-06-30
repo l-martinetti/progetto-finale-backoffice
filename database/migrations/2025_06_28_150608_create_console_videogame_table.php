@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('console_videogame', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
-            $table->foreignId('console_id')->constrained()->onDelete('cascade');
+            $table->foreignId('videogame_id')->constrained();
+            $table->foreignId('console_id')->constrained();
             $table->timestamps();
         });
     }
