@@ -4,7 +4,12 @@
 
     <ul>
         @foreach ($videogames as $videogame)
-            <li>{{$videogame->title}}</li>
+            <li>
+                {{$videogame->title}}
+                <a href={{route('videogames.show', $videogame)}}>
+                    Dettagli
+                </a>
+            </li>
         @endforeach
     </ul>
 

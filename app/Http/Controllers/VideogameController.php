@@ -46,9 +46,9 @@ class VideogameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Videogame $videogame)
     {
-        //
+        return view('videogames.show', compact('videogame'));
     }
 
     /**
