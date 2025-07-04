@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Console;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class VideogameController extends Controller
      */
     public function create()
     {
-        return view('videogames.form');
+        $consoles = Console::all();
+
+        return view('videogames.form', compact('consoles'));
     }
 
     /**
@@ -39,6 +42,9 @@ class VideogameController extends Controller
         $newVideogame->release_date = $data['release_date'];
 
         $newVideogame->save();
+        if ($request->has('consoles')) {
+            $newVideogame->consoles()->attach($data['consoles']);
+        }
 
         return redirect()->route("videogames.show", $newVideogame);
     }
@@ -56,7 +62,9 @@ class VideogameController extends Controller
      */
     public function edit(Videogame $videogame)
     {
-        return view('videogames.form', compact('videogame'));
+        $consoles = Console::all();
+
+        return view('videogames.form', compact('videogame', 'consoles'));
     }
 
     /**
@@ -71,6 +79,12 @@ class VideogameController extends Controller
         $videogame->release_date = $data['release_date'];
 
         $videogame->save();
+
+        if ($request->has('consoles')) {
+            $videogame->consoles()->sync($data['consoles']);
+        } else {
+            $videogame->consoles()->detach($data['consoles']);
+        }
 
         return redirect()->route("videogames.show", $videogame);
     }

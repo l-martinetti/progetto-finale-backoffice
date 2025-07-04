@@ -31,6 +31,20 @@
                 value="{{ old('release_date', $videogame->release_date ?? '') }}">
         </div>
 
+        <div class="mb-3">
+            <label class="form-label">Console:</label>
+            @foreach($consoles as $console)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="console_{{ $console->id }}" name="consoles[]"
+                        value="{{ $console->id }}" {{ (old('consoles') && in_array($console->id, old('consoles'))) ||
+                (isset($videogame) && $videogame->consoles->contains($console->id)) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="console_{{ $console->id }}">
+                        {{ $console->name }}
+                    </label>
+                </div>
+            @endforeach
+        </div>
+
         <button type="submit" class="btn btn-primary">
             {{ isset($videogame) ? 'Aggiorna' : 'Crea' }}
         </button>

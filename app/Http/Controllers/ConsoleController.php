@@ -38,6 +38,10 @@ class ConsoleController extends Controller
 
         $newConsole->save();
 
+        if ($request->has('videogames')) {
+            $newConsole->videogames()->attach($data['videogames']);
+        }
+
         return redirect()->route("consoles.show", $newConsole);
     }
 
@@ -67,6 +71,13 @@ class ConsoleController extends Controller
         $console->name = $data['name'];
 
         $console->save();
+
+        if ($request->has('videogames')) {
+            $console->videogames()->sync($data['videogames']);
+        } else {
+            $console->videogames()->detach($data['videogames']);
+        }
+
 
         return redirect()->route("consoles.show", $console);
     }
