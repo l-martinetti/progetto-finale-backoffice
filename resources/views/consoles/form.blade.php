@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>{{ isset($console) ? 'Modifica Videogioco' : 'Crea Nuovo Videogioco' }}</h1>
+    <h1>{{ isset($console) ? 'Modifica Console' : 'Crea Nuova Console' }}</h1>
 
     <form action="{{ isset($console) ? route('consoles.update', $console->id) : route('consoles.store') }}" method="POST">
         @csrf
@@ -31,10 +31,10 @@
         </div> --}}
 
         <button type="submit" class="btn btn-primary">
-            {{ isset($videogame) ? 'Aggiorna' : 'Crea' }}
+            {{ isset($console) ? 'Aggiorna' : 'Crea' }}
         </button>
 
-        <a href="{{ route('videogames.index') }}" class="btn btn-secondary">Annulla</a>
+        <a href="{{ route('consoles.index') }}" class="btn btn-secondary">Annulla</a>
     </form>
 
 @endsection

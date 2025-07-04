@@ -52,24 +52,32 @@ class ConsoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Console $console)
     {
-        //
+        return view('consoles.form', compact('console'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Console $console)
     {
-        //
+        $data = $request->all();
+
+        $console->name = $data['name'];
+
+        $console->save();
+
+        return redirect()->route("consoles.show", $console);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Console $console)
     {
-        //
+        $console->delete();
+
+        return redirect()->route('consoles.index');
     }
 }

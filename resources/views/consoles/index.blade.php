@@ -9,6 +9,15 @@
                 <a href={{route('consoles.show', $console)}}>
                     Dettagli
                 </a>
+                <a href={{route('consoles.edit', $console)}}>
+                    Modifica
+                </a>
+                <form action={{route('consoles.destroy', $console)}} method="post">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit">Elimina</button>
+                </form>
             </li>
         @endforeach
     </ul>
