@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Console;
 use Illuminate\Http\Request;
 
 class ConsoleController extends Controller
@@ -11,7 +12,9 @@ class ConsoleController extends Controller
      */
     public function index()
     {
-        //
+        $consoles = Console::all();
+
+        return view('consoles.index', compact('consoles'));
     }
 
     /**
@@ -19,7 +22,7 @@ class ConsoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('consoles.form');
     }
 
     /**
@@ -27,15 +30,23 @@ class ConsoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newConsole = new Console;
+
+        $newConsole->name = $data['name'];
+
+        $newConsole->save();
+
+        return redirect()->route("consoles.show", $newConsole);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Console $console)
     {
-        //
+        return view('consoles.show', compact('console'));
     }
 
     /**
