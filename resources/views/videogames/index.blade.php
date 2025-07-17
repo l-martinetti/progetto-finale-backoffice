@@ -4,6 +4,7 @@
 
     <ul>
         @foreach ($videogames as $videogame)
+            <img src="{{ asset('storage/' . $videogame->cover_image)}}" alt="copertina">
             <li>
                 {{$videogame->title}}
                 <a href={{route('videogames.show', $videogame)}}>

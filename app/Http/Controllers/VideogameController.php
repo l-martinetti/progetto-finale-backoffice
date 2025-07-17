@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Console;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VideogameController extends Controller
 {
@@ -34,17 +35,24 @@ class VideogameController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
         $newVideogame = new Videogame();
 
         $newVideogame->title = $data['title'];
         $newVideogame->description = $data['description'];
         $newVideogame->release_date = $data['release_date'];
 
+        if (array_key_exists("cover_image", $data)) {
+            $img_path = Storage::putFile('uploads', $data['cover_image']);
+
+            $newVideogame->cover_image = $img_path;
+        }
+
         $newVideogame->save();
+
         if ($request->has('consoles')) {
             $newVideogame->consoles()->attach($data['consoles']);
         }
+
 
         return redirect()->route("videogames.show", $newVideogame);
     }
@@ -78,6 +86,16 @@ class VideogameController extends Controller
         $videogame->description = $data['description'];
         $videogame->release_date = $data['release_date'];
 
+        if (array_key_exists("cover_image", $data)) {
+            if ($videogame->cover_image) {
+                Storage::delete($videogame->cover_image);
+            }
+
+            $img_path = Storage::putFile('uploads', $data['cover_image']);
+
+            $videogame->cover_image = $img_path;
+        }
+
         $videogame->save();
 
         if ($request->has('consoles')) {
@@ -85,6 +103,7 @@ class VideogameController extends Controller
         } else {
             $videogame->consoles()->detach($data['consoles']);
         }
+
 
         return redirect()->route("videogames.show", $videogame);
     }
@@ -94,6 +113,10 @@ class VideogameController extends Controller
      */
     public function destroy(Videogame $videogame)
     {
+        if ($videogame->cover_image) {
+            Storage::delete('cover_image');
+        }
+
         $videogame->delete();
 
         return redirect()->route('videogames.index');

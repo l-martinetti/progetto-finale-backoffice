@@ -1,6 +1,14 @@
 @extends('layouts.master')
 
+@section('title', $videogame->title)
+
 @section('content')
+    @if ($videogame->cover_image)
+        <div id="post-image">
+            <img src="{{ asset('storage/' . $videogame->cover_image)}}" alt="copertina">
+        </div>
+    @endif
+
     <div>
         <p>{{$videogame->title}}</p>
         <p>{{$videogame->description}}</p>
