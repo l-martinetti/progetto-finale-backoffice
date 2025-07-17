@@ -4,7 +4,9 @@
 
     <ul>
         @foreach ($consoles as $console)
-            <img src="{{ asset('storage/' . $console->image)}}" alt="copertina">
+            @if($console->image)
+                <img src="{{ asset('storage/' . $console->image)}}" alt="copertina">
+            @endif
             <li>
                 {{$console->name}}
                 <a href={{route('consoles.show', $console)}}>
@@ -24,6 +26,6 @@
     </ul>
 
     <a href="{{ route('consoles.create') }}">
-        <button>Aggiungi nuovo videogame</button>
+        <button>Aggiungi nuova console</button>
     </a>
 @endsection

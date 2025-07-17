@@ -4,7 +4,9 @@
 
     <ul>
         @foreach ($videogames as $videogame)
-            <img src="{{ asset('storage/' . $videogame->cover_image)}}" alt="copertina">
+            @if ($videogame->cover_image)
+                <img src="{{ asset('storage/' . $videogame->cover_image)}}" alt={{$videogame->title}}>
+            @endif
             <li>
                 {{$videogame->title}}
                 <a href={{route('videogames.show', $videogame)}}>
