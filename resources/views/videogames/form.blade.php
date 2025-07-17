@@ -5,7 +5,7 @@
     <h1>{{ isset($videogame) ? 'Modifica Videogioco' : 'Crea Nuovo Videogioco' }}</h1>
 
     <form action="{{ isset($videogame) ? route('videogames.update', $videogame->id) : route('videogames.store') }}"
-        enctype="multipart/form-data" method="POST">
+        method="POST" enctype="multipart/form-data">
         @csrf
         @if(isset($videogame))
             @method('PUT')
@@ -50,7 +50,7 @@
             <input id="image" name="cover_image" type="file">
 
             @if (isset($videogame) && $videogame->cover_image)
-                <div id="post-image">
+                <div id="videogame-image">
                     <img class="img-fluid" src="{{ asset('storage/' . $videogame->cover_image)}}" alt="copertina">
                 </div>
             @endif

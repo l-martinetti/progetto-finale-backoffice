@@ -4,6 +4,7 @@
 
     <ul>
         @foreach ($consoles as $console)
+            <img src="{{ asset('storage/' . $console->image)}}" alt="copertina">
             <li>
                 {{$console->name}}
                 <a href={{route('consoles.show', $console)}}>

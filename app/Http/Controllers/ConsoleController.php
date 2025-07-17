@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Console;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ConsoleController extends Controller
 {
@@ -35,6 +36,12 @@ class ConsoleController extends Controller
         $newConsole = new Console;
 
         $newConsole->name = $data['name'];
+
+        if (array_key_exists("image", $data)) {
+            $img_path = Storage::putFile('uploads', $data['image']);
+
+            $newConsole->image = $img_path;
+        }
 
         $newConsole->save();
 
@@ -70,12 +77,22 @@ class ConsoleController extends Controller
 
         $console->name = $data['name'];
 
+        if (array_key_exists("image", $data)) {
+            if ($console->image) {
+                Storage::delete($console->image);
+            }
+
+            $img_path = Storage::putFile('uploads', $data['image']);
+
+            $console->image = $img_path;
+        }
+
         $console->save();
 
         if ($request->has('videogames')) {
             $console->videogames()->sync($data['videogames']);
         } else {
-            $console->videogames()->detach($data['videogames']);
+            $console->videogames()->detach($data['videogames'] ?? []);
         }
 
 
@@ -87,6 +104,10 @@ class ConsoleController extends Controller
      */
     public function destroy(Console $console)
     {
+        if ($console->image) {
+            Storage::delete('image');
+        }
+
         $console->delete();
 
         return redirect()->route('consoles.index');

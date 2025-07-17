@@ -4,7 +4,7 @@
 
 @section('content')
     @if ($videogame->cover_image)
-        <div id="post-image">
+        <div id="videogame-image">
             <img src="{{ asset('storage/' . $videogame->cover_image)}}" alt="copertina">
         </div>
     @endif
