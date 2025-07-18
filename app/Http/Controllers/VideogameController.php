@@ -117,6 +117,8 @@ class VideogameController extends Controller
             Storage::delete('cover_image');
         }
 
+        $videogame->consoles()->detach();
+
         $videogame->delete();
 
         return redirect()->route('videogames.index');

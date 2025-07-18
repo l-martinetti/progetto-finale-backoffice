@@ -36,6 +36,7 @@ class ConsoleController extends Controller
         $newConsole = new Console;
 
         $newConsole->name = $data['name'];
+        $newConsole->name = $data['description'];
 
         if (array_key_exists("image", $data)) {
             $img_path = Storage::putFile('uploads', $data['image']);
@@ -107,6 +108,8 @@ class ConsoleController extends Controller
         if ($console->image) {
             Storage::delete('image');
         }
+
+        $console->videogames()->detach();
 
         $console->delete();
 
