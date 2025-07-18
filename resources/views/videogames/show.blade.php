@@ -10,10 +10,10 @@
     @endif
 
     <div>
-        <p>{{$videogame->title}}</p>
-        <p>{{$videogame->description}}</p>
-        <p>{{$videogame->release_date}}</p>
-        <p>Console:
+        <p class="text-white">{{$videogame->title}}</p>
+        <p class="text-secondary">{{$videogame->description}}</p>
+        <p class="text-secondary">{{$videogame->release_date}}</p>
+        <p class="text-secondary">Console:
             @if($videogame->consoles->count() > 0)
                 @foreach($videogame->consoles as $console)
                     {{ $console->name }}@if(!$loop->last), @endif
@@ -22,7 +22,7 @@
         </p>
     </div>
 
-    <a href="{{ route('videogames.index') }}">
-        <button>Torna alla lista</button>
+    <a href="{{ route('videogames.index') }}" class="text-decoration-none">
+        <button class="btn btn-outline-secondary d-flex align-items-center gap-2">Torna alla lista</button>
     </a>
 @endsection
