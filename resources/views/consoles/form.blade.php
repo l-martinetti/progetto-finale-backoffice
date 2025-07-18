@@ -24,7 +24,10 @@
                 <label for="console_description" class="text-white mb-2">Descrizione</label>
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="Leave a comment here" id="console_description"
-                        name="description">{{ old('description', $console->description ?? '') }}</textarea>
+                        name="description">
+                            {{ isset($console) ? $console->description : '' }}
+                        </textarea>
+
                 </div>
             </div>
 

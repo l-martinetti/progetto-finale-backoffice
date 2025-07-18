@@ -77,6 +77,7 @@ class ConsoleController extends Controller
         $data = $request->all();
 
         $console->name = $data['name'];
+        $console->description = $data['description'];
 
         if (array_key_exists("image", $data)) {
             if ($console->image) {
