@@ -21,4 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('consoles', ConsoleController::class);
 });
 
+Route::get('/esercizio', function () {
+    return view('esercizi.esercizio');
+});
+
 require __DIR__ . '/auth.php';

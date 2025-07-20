@@ -3,7 +3,19 @@
 @section('title', 'Modifica Videogame')
 
 @section('content')
+
+
     <div class="container my-3">
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <h1 class="text-white">{{ isset($videogame) ? 'Modifica Videogioco' : 'Crea Nuovo Videogioco' }}</h1>
 
@@ -18,6 +30,9 @@
                 <label for="videogame_title" class="form-label text-white">Titolo</label>
                 <input type="text" class="form-control" id="videogame_title" name="title"
                     value="{{ old('title', $videogame->title ?? '') }}">
+                @error('title')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -26,12 +41,18 @@
                     <textarea class="form-control" placeholder="Leave a comment here" id="videogame_description"
                         name="description">{{ old('description', $videogame->description ?? '') }}</textarea>
                 </div>
+                @error('Descrizione')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="videogame_release_date" class="form-label text-white">Data di uscita</label>
                 <input type="date" class="form-control" id="videogame_release_date" name="release_date"
                     value="{{ old('release_date', $videogame->release_date ?? '') }}">
+                @error('release_date')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">

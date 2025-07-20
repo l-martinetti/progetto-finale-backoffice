@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Videogame\StoreVideogameRequest;
+use App\Http\Requests\Videogame\UpdateVideogameRequest;
 use App\Models\Console;
 use App\Models\Videogame;
-use Illuminate\Http\Request;
+use App\Services\VideogameService;
 use Illuminate\Support\Facades\Storage;
 
 class VideogameController extends Controller
@@ -32,27 +34,10 @@ class VideogameController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVideogameRequest $request, VideogameService $service)
     {
-        $data = $request->all();
-        $newVideogame = new Videogame();
 
-        $newVideogame->title = $data['title'];
-        $newVideogame->description = $data['description'];
-        $newVideogame->release_date = $data['release_date'];
-
-        if (array_key_exists("cover_image", $data)) {
-            $img_path = Storage::putFile('uploads', $data['cover_image']);
-
-            $newVideogame->cover_image = $img_path;
-        }
-
-        $newVideogame->save();
-
-        if ($request->has('consoles')) {
-            $newVideogame->consoles()->attach($data['consoles']);
-        }
-
+        $newVideogame = $service->create($request->validated());
 
         return redirect()->route("videogames.show", $newVideogame);
     }
@@ -78,32 +63,9 @@ class VideogameController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Videogame $videogame)
+    public function update(UpdateVideogameRequest $request, Videogame $videogame, VideogameService $service)
     {
-        $data = $request->all();
-
-        $videogame->title = $data['title'];
-        $videogame->description = $data['description'];
-        $videogame->release_date = $data['release_date'];
-
-        if (array_key_exists("cover_image", $data)) {
-            if ($videogame->cover_image) {
-                Storage::delete($videogame->cover_image);
-            }
-
-            $img_path = Storage::putFile('uploads', $data['cover_image']);
-
-            $videogame->cover_image = $img_path;
-        }
-
-        $videogame->save();
-
-        if ($request->has('consoles')) {
-            $videogame->consoles()->sync($data['consoles']);
-        } else {
-            $videogame->consoles()->detach($data['consoles']);
-        }
-
+        $videogame = $service->update($videogame, $request->validated());
 
         return redirect()->route("videogames.show", $videogame);
     }
