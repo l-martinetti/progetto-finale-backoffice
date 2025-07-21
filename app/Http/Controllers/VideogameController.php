@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Videogame\StoreVideogameRequest;
 use App\Http\Requests\Videogame\UpdateVideogameRequest;
 use App\Models\Console;
@@ -65,6 +66,8 @@ class VideogameController extends Controller
      */
     public function update(UpdateVideogameRequest $request, Videogame $videogame, VideogameService $service)
     {
+        $this->authorize('update', $videogame);
+
         $videogame = $service->update($videogame, $request->validated());
 
         return redirect()->route("videogames.show", $videogame);
